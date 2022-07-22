@@ -74,34 +74,34 @@
     </script>
 
     <!-- Bootstrap 4 -->
-    <script src="<?php echo base_url ?>stylesheet/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="<?php echo base_url ?>utils/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 
     <!-- ChartJS -->
-    <script src="<?php echo base_url ?>stylesheet/plugins/chart.js/Chart.min.js"></script>
+    <script src="<?php echo base_url ?>utils/plugins/chart.js/Chart.min.js"></script>
 
     <!-- Sparkline -->
-    <script src="<?php echo base_url ?>stylesheet/plugins/sparklines/sparkline.js"></script>
+    <script src="<?php echo base_url ?>utils/plugins/sparklines/sparkline.js"></script>
 
     <!-- Select2 -->
-    <script src="<?php echo base_url ?>stylesheet/plugins/select2/js/select2.full.min.js"></script>
+    <script src="<?php echo base_url ?>utils/plugins/select2/js/select2.full.min.js"></script>
 
     <!-- JQVMap -->
-    <script src="<?php echo base_url ?>stylesheet/plugins/jqvmap/jquery.vmap.min.js"></script>
-    <script src="<?php echo base_url ?>stylesheet/plugins/jqvmap/maps/jquery.vmap.usa.js"></script>
+    <script src="<?php echo base_url ?>utils/plugins/jqvmap/jquery.vmap.min.js"></script>
+    <script src="<?php echo base_url ?>utils/plugins/jqvmap/maps/jquery.vmap.usa.js"></script>
 
     <!-- jQuery Knob Chart -->
-    <script src="<?php echo base_url ?>stylesheet/plugins/jquery-knob/jquery.knob.min.js"></script>
+    <script src="<?php echo base_url ?>utils/plugins/jquery-knob/jquery.knob.min.js"></script>
 
     <!-- daterangepicker -->
-    <script src="<?php echo base_url ?>stylesheet/plugins/moment/moment.min.js"></script>
-    <script src="<?php echo base_url ?>stylesheet/plugins/daterangepicker/daterangepicker.js"></script>
+    <script src="<?php echo base_url ?>utils/plugins/moment/moment.min.js"></script>
+    <script src="<?php echo base_url ?>utils/plugins/daterangepicker/daterangepicker.js"></script>
 
     <!-- Tempusdominus Bootstrap 4 -->
-    <script src="<?php echo base_url ?>stylesheet/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+    <script src="<?php echo base_url ?>utils/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
 
     <!-- Summernote -->
-    <script src="<?php echo base_url ?>stylesheet/plugins/summernote/summernote-bs4.min.js"></script>
-    <script src="<?php echo base_url ?>stylesheet/plugins/datatables/jquery.dataTables.min.js"></script>
-    <script src="<?php echo base_url ?>stylesheet/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-    <script src="<?php echo base_url ?>stylesheet/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
-    <script src="<?php echo base_url ?>stylesheet/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script src="<?php echo base_url ?>utils/plugins/summernote/summernote-bs4.min.js"></script>
+    <script src="<?php echo base_url ?>utils/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="<?php echo base_url ?>utils/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="<?php echo base_url ?>utils/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="<?php echo base_url ?>utils/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
