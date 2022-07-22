@@ -3,9 +3,9 @@
 <!DOCTYPE html>
 <html lang="en" class="" style="height: auto;">
     <?php require_once('include/header.php') ?>
-    <body class="hold-transition login-page light-mode">
+    <body class="hold-transition login-page">
         <script>
-             start_loader()
+            start_loader()
         </script>
 
         <div class="login-box">
@@ -49,13 +49,6 @@
             </div>
         </div>
 
-        <!-- jQuery -->
-        <script src="utils/plugins/jquery/jquery.min.js"></script>
-        <!-- Bootstrap 4 -->
-        <script src="utils/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-        <!-- AdminLTE App -->
-        <script src="utils/dist/js/adminlte.min.js"></script>
-
         <script>
         $(document).ready(function(){
             end_loader();
@@ -63,3 +56,4 @@
         </script>
     </body>
 </html>
+
