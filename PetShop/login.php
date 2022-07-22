@@ -24,6 +24,7 @@
                     <input type="password" class="form-control form" name="password" required>
                 </div>
                 <div class="form-group d-flex justify-content-between">
+                    <a href="javascript:void()" id="create_account">Create Account</a>
                     <button class="btn btn-primary btn-flat">Login</button>
                 </div>
             </form>
@@ -32,6 +33,9 @@
 </div>
 <script>
     $(function(){
+        $('#create_account').click(function(){
+            uni_modal("","registration.php","mid-large")
+        })
         $('#login-form').submit(function(e){
             e.preventDefault();
             start_loader()
