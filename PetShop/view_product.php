@@ -45,8 +45,76 @@
                 <br>
                 <span><small><b>Available stock:</b> <span id="avail"><?php echo $inv[0]['quantity'] ?></span></small></span>
                 </div>
+                <div class="fs-5 mb-5 d-flex justify-content-start">
+                    <?php foreach($inv as $k => $v): ?>
+                        <span><button class="btn btn-sm btn-flat btn-outline-dark m-2 p-size <?php echo $k == 0 ? "active":'' ?>" data-id="<?php echo $k ?>"><?php echo $v['size'] ?></button></span>
+                    <?php endforeach; ?>
+                </div>
+                <form action="" id="add-cart">
+                <div class="d-flex">
+                    <input type="hidden" name="price" value="<?php echo $inv[0]['price'] ?>">
+                    <input type="hidden" name="inventory_id" value="<?php echo $inv[0]['id'] ?>">
+                    <input class="form-control text-center me-3" id="inputQuantity" type="num" value="1" style="max-width: 3rem" name="quantity" />
+                    <button class="btn btn-outline-dark flex-shrink-0" type="submit">
+                        <i class="bi-cart-fill me-1"></i>
+                        Add to cart
+                    </button>
+                </div>
+                </form>
                 <p class="lead"><?php echo stripslashes(html_entity_decode($description)) ?></p>
             </div>
         </div>
     </div>
 </section>
+
+<script>
+    var inv = $.parseJSON('<?php echo json_encode($inv) ?>');
+    $(function(){
+        $('.view-image').click(function(){
+            var _img = $(this).find('img').attr('src');
+            $('#display-img').attr('src',_img);
+            $('.view-image').removeClass("active")
+            $(this).addClass("active")
+        })
+        $('.p-size').click(function(){
+            var k = $(this).attr('data-id');
+            $('.p-size').removeClass("active")
+            $(this).addClass("active")
+            $('#price').text(inv[k].price)
+            $('[name="price"]').val(inv[k].price)
+            $('#avail').text(inv[k].quantity)
+            $('[name="inventory_id"]').val(inv[k].id)
+
+        })
+
+        $('#add-cart').submit(function(e){
+            e.preventDefault();
+            if('<?php echo $_settings->userdata('id') ?>' <= 0){
+                uni_modal("","login.php");
+                return false;
+            }
+            start_loader();
+            $.ajax({
+                url:'classes/Master.php?f=add_to_cart',
+                data:$(this).serialize(),
+                method:'POST',
+                dataType:"json",
+                error:err=>{
+                    console.log(err)
+                    alert_toast("an error occured",'error')
+                    end_loader()
+                },
+                success:function(resp){
+                    if(typeof resp == 'object' && resp.status=='success'){
+                        alert_toast("Product added to cart.",'success')
+                        $('#cart-count').text(resp.cart_count)
+                    }else{
+                        console.log(resp)
+                        alert_toast("an error occured",'error')
+                    }
+                    end_loader();
+                }
+            })
+        })
+    })
+</script>

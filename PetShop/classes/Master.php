@@ -2,14 +2,17 @@
 require_once('../config.php');
 Class Master extends DBConnection {
 	private $settings;
+
 	public function __construct(){
 		global $_settings;
 		$this->settings = $_settings;
 		parent::__construct();
 	}
+
 	public function __destruct(){
 		parent::__destruct();
 	}
+
 	function capture_err(){
 		if(!$this->conn->error)
 			return false;
@@ -20,6 +23,7 @@ Class Master extends DBConnection {
 			exit;
 		}
 	}
+
 	function register(){
 		extract($_POST);
 		$data = "";
@@ -63,6 +67,38 @@ Class Master extends DBConnection {
 			$resp['err'] = $this->conn->error."[{$sql}]";
 		}
 		return json_encode($resp);
+	}
+
+	function add_to_cart(){
+		extract($_POST);
+		$data = " client_id = '".$this->settings->userdata('id')."' ";
+		$_POST['price'] = str_replace(",","",$_POST['price']); 
+		foreach($_POST as $k =>$v){
+			if(!in_array($k,array('id'))){
+				if(!empty($data)) $data .=",";
+				$data .= " `{$k}`='{$v}' ";
+			}
+		}
+		$check = $this->conn->query("SELECT * FROM `cart` where `inventory_id` = '{$inventory_id}' and client_id = ".$this->settings->userdata('id'))->num_rows;
+		if($this->capture_err())
+			return $this->capture_err();
+		if($check > 0){
+			$sql = "UPDATE `cart` set quantity = quantity + {$quantity} where `inventory_id` = '{$inventory_id}' and client_id = ".$this->settings->userdata('id');
+		}else{
+			$sql = "INSERT INTO `cart` set {$data} ";
+		}
+		
+		$save = $this->conn->query($sql);
+		if($this->capture_err())
+			return $this->capture_err();
+			if($save){
+				$resp['status'] = 'success';
+				$resp['cart_count'] = $this->conn->query("SELECT SUM(quantity) as items from `cart` where client_id =".$this->settings->userdata('id'))->fetch_assoc()['items'];
+			}else{
+				$resp['status'] = 'failed';
+				$resp['err'] = $this->conn->error."[{$sql}]";
+			}
+			return json_encode($resp);
 	}
 
 	function delete_product(){
@@ -147,7 +183,6 @@ Class Master extends DBConnection {
 		}
 		return json_encode($resp);
 	}
-
 }
 
 $Master = new Master();
@@ -156,6 +191,9 @@ $sysset = new SystemSettings();
 switch ($action) {
 	case 'register':
 		echo $Master->register();
+		break;
+	case 'add_to_cart':
+		echo $Master->add_to_cart();
 		break;
 	case 'save_product':
 		echo $Master->save_product();
