@@ -40,6 +40,9 @@ switch ($action) {
 	case 'login_user':
 		echo $auth->login_user();
 		break;
+	case 'logout':
+		echo $auth->logout();
+		break;
 	default:
 		echo $auth->index();
 		break;
