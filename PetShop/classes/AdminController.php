@@ -290,6 +290,22 @@ Class AdminController extends DBConnection {
 		return json_encode($resp);
 	}
 
+	function delete_sub_category(){
+		extract($_POST);
+		$del = $this->conn->query("DELETE FROM sub_categories where id = '{$id}'");
+		if($del) {
+			$resp['status'] = 'success';
+			$this->settings->set_flashdata('success', "Sub Category successfully deleted.");
+		} else {
+			$resp['status'] = 'failed';
+			$resp['error'] = $this->conn->error;
+		}
+		return json_encode($resp);
+	}
+
+
+	
+
 }
 
 $AdminController = new AdminController();
@@ -336,6 +352,10 @@ switch ($action) {
 		break;
 	case 'save_category':
 		echo $AdminController->save_category();
+		break;
+
+	case 'delete_sub_category':
+		echo $AdminController->delete_sub_category();
 		break;
 
 	default:
