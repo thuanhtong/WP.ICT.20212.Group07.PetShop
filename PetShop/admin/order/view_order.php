@@ -117,11 +117,11 @@ if($order->num_rows > 0){
 <script>
     $(function(){
         $('#update_status').click(function(){
-            uni_modal("Update Status", "./orders/update_status.php?oid=<?php echo $id ?>&status=<?php echo $status ?>")
+            uni_modal("Update Status", "./order/update_status.php?oid=<?php echo $id ?>&status=<?php echo $status ?>")
         })
 
         $('#close_button').click(function(){
-            location.href = "./?page=orders";
+            location.href = "./?page=order";
         })
     })
 </script>

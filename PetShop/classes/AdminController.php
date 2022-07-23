@@ -232,6 +232,19 @@ Class AdminController extends DBConnection {
 		return json_encode($resp);
 	}
 
+	function delete_category(){
+		extract($_POST);
+		$del = $this->conn->query("DELETE FROM categories where id = '{$id}'");
+		if($del){
+			$resp['status'] = 'success';
+			$this->settings->set_flashdata('success',"Category successfully deleted.");
+		}else {
+			$resp['status'] = 'failed';
+			$resp['error'] = $this->conn->error;
+		}
+		return json_encode($resp);
+	}
+
 }
 
 $AdminController = new AdminController();
@@ -273,6 +286,9 @@ switch ($action) {
 		echo $AdminController->update_order_status();
 		break;
 
+	case 'delete_inventory':
+		echo $AdminController->delete_inventory();
+		break;
 
 	default:
 		break;
