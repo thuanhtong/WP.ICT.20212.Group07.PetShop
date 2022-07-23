@@ -58,3 +58,21 @@
         </div>
     </div>
 </section>
+
+<script>
+    function calc_total(){
+        var total  = 0
+
+        $('.total-amount').each(function(){
+            amount = $(this).text()
+            amount = amount.replace(/\,/g,'')
+            amount = parseFloat(amount)
+            total += amount
+        })
+        $('#grand-total').text(parseFloat(total).toLocaleString('en-US'))
+    }
+    
+    $(function(){
+        calc_total()
+    })
+</script>
