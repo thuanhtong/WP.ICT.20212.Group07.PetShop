@@ -6,88 +6,78 @@
 
 <div class="card card-outline card-primary">
 	<div class="card-header">
-		<h3 class="card-title">List of Products</h3>
+		<h3 class="card-title">List of Inventory</h3>
 		<div class="card-tools">
-			<a href="?page=product/manage_product" class="btn btn-flat btn-primary"><span class="fas fa-plus"></span> Create New</a>
+			<a href="?page=inventory/manage_inventory" class="btn btn-flat btn-primary"><span class="fas fa-plus"></span>  Create New</a>
 		</div>
 	</div>
-	
+
 	<div class="card-body">
 		<div class="container-fluid">
-			<div class="container-fluid">
+        	<div class="container-fluid">
 				<table class="table table-bordered table-stripped">
 					<colgroup>
 						<col width="5%">
-						<col width="15%">
-						<col width="20%">
-						<col width="35%">
+						<col width="25%">
 						<col width="10%">
-						<col width="15%">
+						<col width="10%">
+						<col width="20%">
+						<col width="20%">
+						<col width="10%">
 					</colgroup>
 					<thead>
 						<tr>
 							<th>#</th>
-							<th>Date Created</th>
 							<th>Product</th>
-							<th>Description</th>
-							<th>Status</th>
+							<th>Unit</th>
+							<th>Size</th>
+							<th>Price</th>
+							<th>Stock</th>
 							<th>Action</th>
 						</tr>
 					</thead>
 					<tbody>
 						<?php 
 							$i = 1;
-							$qry = $conn->query("SELECT * from `products` order by unix_timestamp(date_created) desc ");
-							while($row = $qry->fetch_assoc()):
-								$row['description'] = strip_tags(stripslashes(html_entity_decode($row['description'])));
+							$qry = $conn->query("SELECT i.*,p.product_name as product from inventory i inner join products p on p.id = i.product_id order by unix_timestamp(i.date_created) desc ");
+							while($row = $qry->fetch_assoc()){
 						?>
 							<tr>
 								<td class="text-center"><?php echo $i++; ?></td>
-
-								<td><?php echo date("Y-m-d H:i",strtotime($row['date_created'])) ?></td>
-
-								<td><?php echo $row['product_name'] ?></td>
-
-								<td><p class="truncate-1 m-0"><?php echo $row['description'] ?></p></td>
-
-								<td class="text-center">
-									<?php if($row['status'] == 1): ?>
-										<span class="badge badge-success">Active</span>
-									<?php else: ?>
-										<span class="badge badge-danger">Inactive</span>
-									<?php endif; ?>
-								</td>
-
+								<td><?php echo $row['product'] ?></td>
+								<td><?php echo $row['unit'] ?></td>
+								<td><?php echo $row['size'] ?></td>
+								<td class="text-right"><?php echo number_format($row['price']) ?></td>
+								<td class="text-right"><?php echo $row['quantity'] ?></td>
 								<td align="center">
 									<button type="button" class="btn btn-flat btn-default btn-sm dropdown-toggle dropdown-icon" data-toggle="dropdown"> Action
 										<span class="sr-only">Toggle Dropdown</span>
 									</button>
 									<div class="dropdown-menu" role="menu">
-										<a class="dropdown-item" href="?page=product/manage_product&id=<?php echo $row['id'] ?>"><span class="fa fa-edit text-primary"></span> Edit</a>
+										<a class="dropdown-item" href="?page=inventory/manage_inventory&id=<?php echo $row['id'] ?>"><span class="fa fa-edit text-primary"></span> Edit</a>
 										<div class="dropdown-divider"></div>
 										<a class="dropdown-item delete_data" href="javascript:void(0)" data-id="<?php echo $row['id'] ?>"><span class="fa fa-trash text-danger"></span> Delete</a>
 									</div>
 								</td>
 							</tr>
-						<?php endwhile; ?>
+						<?php } ?>
 					</tbody>
 				</table>
 			</div>
 		</div>
 	</div>
 </div>
-
 <script>
 	$(document).ready(function(){
 		$('.delete_data').click(function(){
-			_conf("Are you sure to delete this product permanently?","delete_product",[$(this).attr('data-id')])
+			_conf("Are you sure to delete this inventory permanently?","delete_inventory",[$(this).attr('data-id')])
 		})
 		$('.table').dataTable();
 	})
-	function delete_product($id){
+	function delete_inventory($id){
 		start_loader();
 		$.ajax({
-			url:_base_url_+"classes/Master.php?f=delete_product",
+			url:_base_url_+"classes/Master.php?f=delete_inventory",
 			method:"POST",
 			data:{id: $id},
 			dataType:"json",
