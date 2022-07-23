@@ -80,7 +80,7 @@
         if($type == 'minus'){
             if(qty > 0) {
                 if(qty == 1) {
-                    _conf("Are you sure to remove the item in cart list?",'rem_item',[_this.closest('.cart-item').find('.cart-qty').attr('data-id')])
+                    // ask to remove item
                 }else{
                     qty = parseInt(qty) - 1
                 }
@@ -95,7 +95,7 @@
         calc_total()
 
         $.ajax({
-            url:'classes/Master.php?f=update_cart_qty',
+            url:'classes/CustomerController.php?f=update_cart_qty',
             method:'POST',
             data:{id:cart_id, quantity: qty},
             dataType:'json',

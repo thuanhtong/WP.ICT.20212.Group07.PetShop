@@ -95,7 +95,7 @@
             }
             start_loader();
             $.ajax({
-                url:'classes/Master.php?f=add_to_cart',
+                url:'classes/CustomerController.php?f=add_to_cart',
                 data:$(this).serialize(),
                 method:'POST',
                 dataType:"json",

@@ -256,11 +256,6 @@ switch ($action) {
 	case 'delete_order':
 		echo $AdminController->delete_order();
 		break;
-
-
-	case 'update_cart_qty':
-		echo $Master->update_cart_qty();
-		break;
 	default:
 		break;
 }
