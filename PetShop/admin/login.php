@@ -9,7 +9,7 @@
         </script>
 
         <div class="login-box">
-            <div class="card card-outline card-secondary">
+            <div class="card card-outline card-primary">
                 <div class="card-header text-center">
                     <a href="./" class="h1"><b>Login</b></a>
                 </div>
@@ -41,7 +41,7 @@
                             </div>
 
                             <div class="col-4">
-                                <button type="submit" class="btn btn-secondary btn-block">Sign In</button>
+                                <button type="submit" class="btn btn-primary btn-block">Sign In</button>
                             </div>
                         </div>
                     </form>

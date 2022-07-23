@@ -50,6 +50,7 @@ class Login extends DBConnection {
 			return json_encode(array('status'=>'incorrect','last_qry'=>"SELECT * from users where username = '$username' and password = md5('$password') "));
 		}
 	}
+
 	public function logout(){
 		if($this->settings->sess_des()){
 			redirect('admin/login.php');
@@ -62,6 +63,7 @@ $auth = new Login();
 switch ($action) {
 	case 'login':
 		echo $auth->login();
+		break;
 	case 'login_user':
 		echo $auth->login_user();
 		break;
