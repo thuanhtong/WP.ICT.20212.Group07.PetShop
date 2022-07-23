@@ -219,6 +219,19 @@ Class AdminController extends DBConnection {
 		return json_encode($resp);
 	}
 
+	function update_order_status(){
+		extract($_POST);
+		$update = $this->conn->query("UPDATE orders set status = '$status' where id = '{$id}' ");
+		if($update) {
+			$resp['status'] ='success';
+			$this->settings->set_flashdata("success"," Order status successfully updated.");
+		}else {
+			$resp['status'] ='failed';
+			$resp['err'] = $this->conn->error;
+		}
+		return json_encode($resp);
+	}
+
 }
 
 $AdminController = new AdminController();
@@ -255,6 +268,9 @@ switch ($action) {
 		break;	
 	case 'delete_order':
 		echo $AdminController->delete_order();
+		break;
+	case 'update_order_status':
+		echo $AdminController->update_order_status();
 		break;
 
 
