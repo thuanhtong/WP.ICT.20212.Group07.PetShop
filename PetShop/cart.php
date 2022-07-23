@@ -92,7 +92,7 @@
         new_total = parseFloat(qty * price).toLocaleString('en-US')
         _this.closest('.cart-item').find('.cart-qty').val(qty)
         _this.closest('.cart-item').find('.total-amount').text(new_total)
-        calc_total()
+        // calc_total()
 
         $.ajax({
             url:'classes/CustomerController.php?f=update_cart_qty',
@@ -115,14 +115,48 @@
 
         })
     }
+    function rem_item(id){
+        $('.modal').modal('hide')
+        var _this = $('.rem_item[data-id="'+id+'"]')
+        var id = _this.attr('data-id')
+        var item = _this.closest('.cart-item')
+        start_loader();
+        $.ajax({
+            url:'classes/CustomerController.php?f=remove_item_in_cart',
+            method:'POST',
+            data:{id:id},
+            dataType:'json',
+            error:err=>{
+                console.log(err)
+                alert_toast("an error occured", 'error');
+                end_loader()
+            },
+            success:function(resp){
+                if(!!resp.status && resp.status == 'success'){
+                    calc_total()
+                    item.hide('slow',function(){ item.remove() })
+                    calc_total()
+                    end_loader()
+                }else{
+                    alert_toast("an error occured", 'error');
+                    end_loader()
+                }
+            }
+
+        })
+    }
     
     $(function(){
         calc_total()
         $('.min-qty').click(function(){
+            _conf("Are you ok?",'',[])
             qty_change('minus',$(this))
         })
         $('.plus-qty').click(function(){
             qty_change('plus',$(this))
+        })
+        $('.rem_item').click(function(){
+            _conf("Are you sure to remove the item in cart list?",'rem_item',[$(this).attr('data-id')])
         })
     })
 </script>

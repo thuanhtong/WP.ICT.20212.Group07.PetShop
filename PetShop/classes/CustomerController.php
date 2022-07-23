@@ -146,6 +146,20 @@ Class CustomerController extends DBConnection {
 		return json_encode($resp);
 		
 	}
+
+	function remove_item_in_cart(){
+		extract($_POST);
+		$delete = $this->conn->query("DELETE FROM `cart` where id = '{$id}'");
+		if($this->capture_err())
+			return $this->capture_err();
+		if($delete){
+			$resp['status'] = 'success';
+		}else{
+			$resp['status'] = 'failed';
+			$resp['err'] = $this->conn->error."[{$sql}]";
+		}
+		return json_encode($resp);
+	}
 }
 
 $CustomerController = new CustomerController();
@@ -167,6 +181,9 @@ switch ($action) {
     case 'update_cart_qty':
         echo $CustomerController->update_cart_qty();
         break;
+	case 'remove_item_in_cart':
+		echo $CustomerController->remove_item_in_cart();
+		break;
 	default:
 		break;
 }
