@@ -168,7 +168,7 @@ Class AdminController extends DBConnection {
 		if(empty($id)){
 			$sql = "INSERT INTO `inventory` set {$data} ";
 			$save = $this->conn->query($sql);
-		}else{
+		}else {
 			$sql = "UPDATE `inventory` set {$data} where id = '{$id}' ";
 			$save = $this->conn->query($sql);
 		}
@@ -179,6 +179,40 @@ Class AdminController extends DBConnection {
 			else
 				$this->settings->set_flashdata('success',"Invenory successfully updated.");
 		}else{
+			$resp['status'] = 'failed';
+			$resp['err'] = $this->conn->error."[{$sql}]";
+		}
+		return json_encode($resp);
+	}
+
+	
+	function pay_order(){
+		extract($_POST);
+		$update = $this->conn->query("UPDATE orders set paid = '1' where id = '{$id}' ");
+
+		if($update){
+			$resp['status'] ='success';
+			$this->settings->set_flashdata("success"," Order payment status successfully updated.");
+		} else {
+			$resp['status'] ='failed';
+			$resp['err'] =$this->conn->error;
+		}
+
+		return json_encode($resp);
+	}
+
+	function delete_order(){
+		extract($_POST);
+		$delete = $this->conn->query("DELETE FROM orders where id = '{$id}'");
+		$delete2 = $this->conn->query("DELETE FROM order_list where order_id = '{$id}'");
+		$delete3 = $this->conn->query("DELETE FROM sales where order_id = '{$id}'");
+		if($this->capture_err())
+			return $this->capture_err();
+
+		if($delete) {
+			$resp['status'] = 'success';
+			$this->settings->set_flashdata('success',"Order successfully deleted");
+		} else {
 			$resp['status'] = 'failed';
 			$resp['err'] = $this->conn->error."[{$sql}]";
 		}
@@ -215,6 +249,14 @@ switch ($action) {
 	case 'delete_inventory':
 		echo $AdminController->delete_inventory();
 		break;
+	
+	case 'pay_order':
+		echo $AdminController->pay_order();
+		break;	
+	case 'delete_order':
+		echo $AdminController->delete_order();
+		break;
+
 
 	default:
 		break;
