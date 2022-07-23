@@ -28,7 +28,7 @@ $(document).ready(function(){
 		if($('.err_msg').length > 0)
 			$('.err_msg').remove()
 		$.ajax({
-			url:_base_url_+'classes/Login.php?f=login',
+			url:_base_url_+'classes/AdminController.php?f=login',
 			method:'POST',
 			data:$(this).serialize(),
 			error:err=>{
@@ -59,7 +59,7 @@ $(document).ready(function(){
 		if($('.err_msg').length > 0)
 			$('.err_msg').remove()
 		$.ajax({
-			url:_base_url_+'classes/Login.php?f=flogin',
+			url:_base_url_+'classes/AdminController.php?f=flogin',
 			method:'POST',
 			data:$(this).serialize(),
 			error:err=>{
@@ -91,7 +91,7 @@ $(document).ready(function(){
 		if($('.err_msg').length > 0)
 			$('.err_msg').remove()
 		$.ajax({
-			url:_base_url_+'classes/Login.php?f=slogin',
+			url:_base_url_+'classes/AdminController.php?f=slogin',
 			method:'POST',
 			data:$(this).serialize(),
 			error:err=>{

@@ -87,7 +87,7 @@
 	function delete_product($id){
 		start_loader();
 		$.ajax({
-			url:_base_url_+"classes/Master.php?f=delete_product",
+			url:_base_url_+"classes/AdminController.php?f=delete_product",
 			method:"POST",
 			data:{id: $id},
 			dataType:"json",
