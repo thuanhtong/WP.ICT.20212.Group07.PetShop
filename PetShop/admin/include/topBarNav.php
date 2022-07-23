@@ -13,7 +13,7 @@
 </style>
 
 <!-- Navbar -->
-<nav class="main-header navbar navbar-expand navbar-dark border border-light border-top-0  border-left-0 border-right-0 navbar-light text-sm">
+<nav class="main-header navbar navbar-expand navbar-light border border-light border-top-0  border-left-0 border-right-0 navbar-light text-sm">
     <!-- Left navbar links -->
     <ul class="navbar-nav">
         <li class="nav-item">
@@ -21,7 +21,7 @@
         </li>
 
         <li class="nav-item d-none d-sm-inline-block">
-            <a href="<?php echo base_url ?>" class="nav-link"><?php echo $_settings->info('short_name'); ?> - Admin</a>
+            <a href="<?php echo base_url ?>" class="nav-link"><?php echo $_settings->info('name'); ?> - Admin</a>
         </li>
     </ul>
 

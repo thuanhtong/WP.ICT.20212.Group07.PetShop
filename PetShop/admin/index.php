@@ -10,7 +10,7 @@
     <body class="sidebar-mini layout-fixed control-sidebar-slide-open layout-navbar-fixed sidebar-mini-md sidebar-mini-xs" style="height: auto;">
         <div class="wrapper">
             <?php require_once('include/topBarNav.php') ?>
-              
+            <?php require_once('include/leftBarNav.php') ?> 
             <?php $page = isset($_GET['page']) ? $_GET['page'] : 'home';  ?>
 
             <div class="content-wrapper pt-3">
