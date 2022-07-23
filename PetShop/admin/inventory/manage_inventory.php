@@ -85,7 +85,7 @@ if(isset($_GET['id']) && $_GET['id'] > 0){
 			$('.err-msg').remove();
 			start_loader();
 			$.ajax({
-				url:_base_url_+"classes/Master.php?f=save_inventory",
+				url:_base_url_+"classes/AdminController.php?f=save_inventory",
 				data: new FormData($(this)[0]),
                 cache: false,
                 contentType: false,

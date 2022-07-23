@@ -112,7 +112,7 @@ if(isset($_GET['id']) && $_GET['id'] > 0){
     function delete_img($path){
         start_loader()
         $.ajax({
-            url: _base_url_+'classes/Master.php?f=delete_img',
+            url: _base_url_+'classes/AdminController.php?f=delete_img',
             data:{path:$path},
             method:'POST',
             dataType:"json",
@@ -175,7 +175,7 @@ if(isset($_GET['id']) && $_GET['id'] > 0){
 			 $('.err-msg').remove();
 			start_loader();
 			$.ajax({
-				url:_base_url_+"classes/Master.php?f=save_product",
+				url:_base_url_+"classes/AdminController.php?f=save_product",
 				data: new FormData($(this)[0]),
                 cache: false,
                 contentType: false,
