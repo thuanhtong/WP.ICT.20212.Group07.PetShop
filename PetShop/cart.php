@@ -71,8 +71,58 @@
         })
         $('#grand-total').text(parseFloat(total).toLocaleString('en-US'))
     }
+    function qty_change($type,_this){
+        var qty = _this.closest('.cart-item').find('.cart-qty').val()
+        var price = _this.closest('.cart-item').find('.price').text()
+        var cart_id = _this.closest('.cart-item').find('.cart-qty').attr('data-id')
+        var new_total = 0
+        start_loader();
+        if($type == 'minus'){
+            if(qty > 0) {
+                if(qty == 1) {
+                    _conf("Are you sure to remove the item in cart list?",'rem_item',[_this.closest('.cart-item').find('.cart-qty').attr('data-id')])
+                }else{
+                    qty = parseInt(qty) - 1
+                }
+            }             
+        }else{
+            qty = parseInt(qty) + 1
+        }
+        price = parseFloat(price)
+        new_total = parseFloat(qty * price).toLocaleString('en-US')
+        _this.closest('.cart-item').find('.cart-qty').val(qty)
+        _this.closest('.cart-item').find('.total-amount').text(new_total)
+        calc_total()
+
+        $.ajax({
+            url:'classes/Master.php?f=update_cart_qty',
+            method:'POST',
+            data:{id:cart_id, quantity: qty},
+            dataType:'json',
+            error:err=>{
+                console.log(err)
+                alert_toast("an error occured", 'error');
+                end_loader()
+            },
+            success:function(resp){
+                if(!!resp.status && resp.status == 'success'){
+                    end_loader()
+                }else{
+                    alert_toast("an error occured", 'error');
+                    end_loader()
+                }
+            }
+
+        })
+    }
     
     $(function(){
         calc_total()
+        $('.min-qty').click(function(){
+            qty_change('minus',$(this))
+        })
+        $('.plus-qty').click(function(){
+            qty_change('plus',$(this))
+        })
     })
 </script>

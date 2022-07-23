@@ -183,6 +183,22 @@ Class Master extends DBConnection {
 		}
 		return json_encode($resp);
 	}
+
+	function update_cart_qty(){
+		extract($_POST);
+		$sql = "UPDATE `cart` set quantity = '{$quantity}' where id = '{$id}'";
+		$save = $this->conn->query($sql);
+		if($this->capture_err())
+			return $this->capture_err();
+		if($save){
+			$resp['status'] = 'success';
+		}else{
+			$resp['status'] = 'failed';
+			$resp['err'] = $this->conn->error."[{$sql}]";
+		}
+		return json_encode($resp);
+		
+	}
 }
 
 $Master = new Master();
@@ -202,8 +218,11 @@ switch ($action) {
 		echo $Master->delete_product();
 		break;
 	case 'delete_img':
-			echo $Master->delete_img();
-			break;
+		echo $Master->delete_img();
+		break;
+	case 'update_cart_qty':
+		echo $Master->update_cart_qty();
+		break;
 	default:
 		break;
 }
