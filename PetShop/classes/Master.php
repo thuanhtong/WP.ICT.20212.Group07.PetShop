@@ -183,6 +183,20 @@ Class Master extends DBConnection {
 		}
 		return json_encode($resp);
 	}
+
+	function delete_inventory(){
+		extract($_POST);
+		$del = $this->conn->query("DELETE FROM `inventory` where id = '{$id}'");
+		if($del) {
+			$resp['status'] = 'success';
+			$this->settings->set_flashdata('success',"Invenory successfully deleted.");
+		} else {
+			$resp['status'] = 'failed';
+			$resp['error'] = $this->conn->error;
+		}
+		return json_encode($resp);
+	}
+
 }
 
 $Master = new Master();
@@ -202,8 +216,12 @@ switch ($action) {
 		echo $Master->delete_product();
 		break;
 	case 'delete_img':
-			echo $Master->delete_img();
-			break;
+		echo $Master->delete_img();
+		break;
+	case 'delete_inventory':
+		echo $Master->delete_inventory();
+		break;
+
 	default:
 		break;
 }
