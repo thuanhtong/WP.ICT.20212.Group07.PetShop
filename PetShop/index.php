@@ -1,24 +1,35 @@
 <?php 
   require_once('config.php'); 
-  require_once('include/header.php');
-  require_once('include/topBarNav.php');
 ?>
 
 <!DOCTYPE html>
 <html lang="en" class="" style="height: auto;">
-<body>
-    <?php $page = isset($_GET['p']) ? $_GET['p'] : 'home';  ?>
-    <?php 
-        if(!file_exists($page.".php") && !is_dir($page)){
-            include '404.html';
-        }else{
-        if(is_dir($page))
-            include $page.'/index.php';
-        else
-            include $page.'.php';
 
-        }
-    ?>
+    <?php require_once('include/header.php'); ?>
+    
+    <body style="height: auto;">
+    <div class="flex-wrapper">
+        
+        <?php require_once('include/topBarNav.php') ?>
+        <?php $page = isset($_GET['p']) ? $_GET['p'] : 'home';  ?>
+        
+        <div class="container">
+
+        <section class="content text-dark">
+                    <div class="container-fluid">
+                        <?php 
+                            if(!file_exists($page.".php") && !is_dir($page)){
+                                include '404.html';
+                            } else {
+                                if(is_dir($page)) {
+                                    include $page.'/index.php';
+                                } else {
+                                    include $page.'.php';
+                                }
+                            }
+                        ?>
+                    </div>
+                </section>
     
     <div class="modal fade" id="confirm_modal" role='dialog'>
         <div class="modal-dialog modal-md modal-dialog-centered" role="document">
@@ -90,6 +101,8 @@
             </div>
         </div>
     </div>
-    <?php require_once('include/footer.php') ?>
+        </div>
+        <?php require_once('include/footer.php') ?>
+    </div>
 </body>
 </html>

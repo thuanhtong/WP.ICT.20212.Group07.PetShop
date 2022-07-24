@@ -61,35 +61,9 @@
     </div>
 </section>
 <script>
-    function cancel_book($id){
-        start_loader()
-        $.ajax({
-            url:_base_url_+"classes/CustomerController.php?f=update_book_status",
-            method:"POST",
-            data:{id:$id,status:2},
-            dataType:"json",
-            error:err=>{
-                console.log(err)
-                alert_toast("an error occured",'error')
-                end_loader()
-            },
-            success:function(resp){
-                if(typeof resp == 'object' && resp.status == 'success'){
-                    alert_toast("Book cancelled successfully",'success')
-                    setTimeout(function(){
-                        location.reload()
-                    },2000)
-                }else{
-                    console.log(resp)
-                    alert_toast("an error occured",'error')
-                }
-                end_loader()
-            }
-        })
-    }
     $(function(){
         $('.view_order').click(function(){
-            uni_modal("Order Details","./admin/orders/view_order.php?view=user&id="+$(this).attr('data-id'),'large')
+            uni_modal("Order Details","./admin/order/view_order.php?view=user&id="+$(this).attr('data-id'),'large')
         })
         $('table').dataTable();
 

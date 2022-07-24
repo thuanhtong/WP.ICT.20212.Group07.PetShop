@@ -67,6 +67,56 @@
     </div>
 </section>
 
+<!-- Related items section-->
+<section class="py-5 bg-light">
+    <div class="container px-4 px-lg-5 mt-5">
+        <h2 class="fw-bolder mb-4">Related products</h2>
+        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+        <?php 
+            $products = $conn->query("SELECT * FROM `products` where status = 1 and (category_id = '{$category_id}' or sub_category_id = '{$sub_category_id}') and id !='{$id}' order by rand() limit 4 ");
+            while($row = $products->fetch_assoc()):
+                $upload_path = base_app.'/uploads/product_'.$row['id'];
+                $img = "";
+                if(is_dir($upload_path)){
+                    $fileO = scandir($upload_path);
+                    if(isset($fileO[2]))
+                        $img = "uploads/product_".$row['id']."/".$fileO[2];
+                }
+                $inventory = $conn->query("SELECT * FROM inventory where product_id = ".$row['id']);
+                $_inv = array();
+                while($ir = $inventory->fetch_assoc()){
+                    $_inv[$ir['size']] = number_format($ir['price']);
+                }
+        ?>
+            <div class="col mb-5">
+                <div class="card h-100 product-item">
+                    <!-- Product image-->
+                    <img class="card-img-top w-100" src="<?php echo validate_image($img) ?>" alt="..." />
+                    <!-- Product details-->
+                    <div class="card-body p-4">
+                        <div class="text-center">
+                            <!-- Product name-->
+                            <h5 class="fw-bolder"><?php echo $row['product_name'] ?></h5>
+                            <!-- Product price-->
+                            <?php foreach($_inv as $k=> $v): ?>
+                                <span><b><?php echo $k ?>: </b><?php echo $v ?></span>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                    <!-- Product actions-->
+                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                        <div class="text-center">
+                            <a class="btn btn-flat btn-primary "   href=".?p=view_product&id=<?php echo md5($row['id']) ?>">View</a>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            <?php endwhile; ?>
+        </div>
+    </div>
+</section>
+
 <script>
     var inv = $.parseJSON('<?php echo json_encode($inv) ?>');
     $(function(){
