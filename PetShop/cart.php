@@ -80,7 +80,7 @@
         if($type == 'minus'){
             if(qty > 0) {
                 if(qty == 1) {
-                    // ask to remove item
+                    _conf("Are you sure to remove the item in cart list?",'rem_item',[_this.closest('.cart-item').find('.cart-qty').attr('data-id')])
                 }else{
                     qty = parseInt(qty) - 1
                 }
