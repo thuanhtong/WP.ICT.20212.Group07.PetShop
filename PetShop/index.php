@@ -40,7 +40,7 @@
         <div class="modal-dialog modal-md modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                <h5 class="modal-title">Confirmation</h5>
+                <h5 class="modal-title">Notification</h5>
                 </div>
                 <div class="modal-body">
                     <div id="delete_content"></div>

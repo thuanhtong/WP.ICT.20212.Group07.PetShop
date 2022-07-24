@@ -54,7 +54,8 @@
             </div>
         </div>
         <div class="d-flex w-100 justify-content-end">
-            <a href="./?p=checkout" class="btn btn-sm btn-flat btn-dark">Checkout</a>
+            <!-- <a href="./?p=checkout" class="btn btn-sm btn-flat btn-dark">Checkout</a> -->
+            <button class="btn btn-sm btn-flat btn-dark" type="button" id="checkout">Checkout</button>
         </div>
     </div>
 </section>
@@ -168,7 +169,7 @@
 
         })
     }
-    
+
     $(function(){
         calc_total()
         $('.min-qty').click(function(){
@@ -186,6 +187,14 @@
                 _msg("Your cart is already empty.")
             }else{
                 _conf("Are you sure to empty your cart list?",'empty_cart',[])
+            }
+        })
+        $('#checkout').click(function(){
+            var num = <?php echo $conn->query("SELECT * from `cart` where client_id = ".$_settings->userdata('id'))->num_rows; ?>;
+            if(num==0){
+                _msg("Your cart is empty.")
+            }else{
+                location.href="./?p=checkout" 
             }
         })
     })
