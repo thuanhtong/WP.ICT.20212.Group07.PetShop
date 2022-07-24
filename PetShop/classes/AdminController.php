@@ -349,7 +349,66 @@ Class AdminController extends DBConnection {
 		return json_encode($resp);
 	}
 
+	public function save_user(){
+		extract($_POST);
+		$data = '';
+		foreach($_POST as $k => $v){
+			if(!in_array($k,array('id','password'))){
+				if(!empty($data)) $data .=" , ";
+				$data .= " {$k} = '{$v}' ";
+			}
+		}
 
+		if(!empty($password) && !empty($id)){
+			$password = md5($password);
+			if(!empty($data)) $data .=" , ";
+			$data .= " `password` = '{$password}' ";
+		}
+
+		if(isset($_FILES['img']) && $_FILES['img']['tmp_name'] != ''){
+				$fname = 'uploads/'.$_FILES['img']['name'];
+				$move = move_uploaded_file($_FILES['img']['tmp_name'],'../'. $fname);
+				if($move){
+					$data .=" , avatar = '{$fname}' ";
+					if(isset($_SESSION['userdata']['avatar']) && is_file('../'.$_SESSION['userdata']['avatar']))
+						unlink('../'.$_SESSION['userdata']['avatar']);
+				}
+		}
+
+		if(empty($id)){
+			$qry = $this->conn->query("INSERT INTO users set {$data}");
+			if($qry){
+				$this->settings->set_flashdata('success','User Details successfully saved.');
+				foreach($_POST as $k => $v){
+					if($k != 'id'){
+						if(!empty($data)) $data .=" , ";
+						$this->settings->set_userdata($k,$v);
+					}
+				}
+				return 1;
+			} else {
+				return 2;
+			}
+
+		} else {
+			$qry = $this->conn->query("UPDATE users set $data where id = {$id}");
+			if($qry){
+				$this->settings->set_flashdata('success','User Details successfully updated.');
+				foreach($_POST as $k => $v){
+					if($k != 'id'){
+						if(!empty($data)) $data .=" , ";
+						$this->settings->set_userdata($k,$v);
+					}
+				}
+				if(isset($fname) && isset($move))
+				$this->settings->set_userdata('avatar',$fname);
+
+				return 1;
+			} else {
+				return "UPDATE users set $data where id = {$id}";
+			}
+		}
+	}
 
 	
 
@@ -408,6 +467,9 @@ switch ($action) {
 		echo $AdminController->save_sub_category();
 		break;
 
+	case 'save_user':
+		echo $AdminController->save_user();
+		break;
 
 	default:
 		break;
