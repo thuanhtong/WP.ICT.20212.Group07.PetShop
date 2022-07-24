@@ -87,7 +87,7 @@ CREATE TABLE `clients` (
   `default_delivery_address` text NOT NULL,
   `date_created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -96,7 +96,7 @@ CREATE TABLE `clients` (
 
 LOCK TABLES `clients` WRITE;
 /*!40000 ALTER TABLE `clients` DISABLE KEYS */;
-INSERT INTO `clients` VALUES (1,'Anh','Tong','Female','0987654321','xxxthuanhxxx@gmail.com','e10adc3949ba59abbe56e057f20f883e','Hanoi','2022-07-24 15:38:25');
+INSERT INTO `clients` VALUES (1,'Anh','Tong','Female','0987654321','xxxthuanhxxx@gmail.com','e10adc3949ba59abbe56e057f20f883e','Hanoi','2022-07-24 15:38:25'),(3,'user','user','Male','09876543210','user@gmail.com','ee11cbb19052e40b07aac0ca060c23ee','Hanoi','2022-07-24 19:12:51');
 /*!40000 ALTER TABLE `clients` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -351,7 +351,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'Adminstrator','Admin','admin','0192023a7bbd73250516f069df18b500','uploads/avatar.png',NULL,1,'2022-07-20 14:02:37','2022-07-24 15:40:26'),(2,'Anh','Tong','anhttt','e10adc3949ba59abbe56e057f20f883e','uploads/meo.jpg',NULL,0,'2022-07-21 08:36:09','2022-07-24 16:13:50'),(3,'Giang','Nguyen','giangntt','e10adc3949ba59abbe56e057f20f883e','uploads/meo2.jpg',NULL,0,'2022-07-21 10:01:51','2022-07-24 16:17:08');
+INSERT INTO `users` VALUES (1,'Adminstrator','Admin','admin','21232f297a57a5a743894a0e4a801fc3','uploads/avatar.png',NULL,1,'2022-07-20 14:02:37','2022-07-24 19:11:52'),(2,'Anh','Tong','anhttt','e10adc3949ba59abbe56e057f20f883e','uploads/meo.jpg',NULL,0,'2022-07-21 08:36:09','2022-07-24 16:13:50'),(3,'Giang','Nguyen','giangntt','e10adc3949ba59abbe56e057f20f883e','uploads/meo2.jpg',NULL,0,'2022-07-21 10:01:51','2022-07-24 16:17:08');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -364,4 +364,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-07-24 19:02:18
+-- Dump completed on 2022-07-24 19:14:02
