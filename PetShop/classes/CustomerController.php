@@ -218,6 +218,49 @@ Class CustomerController extends DBConnection {
 		}
 		return json_encode($resp);
 	}
+
+	function update_account(){
+		extract($_POST);
+		$data = "";
+		if(!empty($password)){
+			$_POST['password'] = md5($password);
+			if(md5($cpassword) != $this->settings->userdata('password')){
+				$resp['status'] = 'failed';
+				$resp['msg'] = "Current Password is Incorrect";
+				return json_encode($resp);
+				exit;
+			}
+
+		}
+		$check = $this->conn->query("SELECT * FROM `clients`  where `email`='{$email}' and `id` != $id ")->num_rows;
+		if($check > 0){
+			$resp['status'] = 'failed';
+			$resp['msg'] = "Email already taken.";
+			return json_encode($resp);
+			exit;
+		}
+		foreach($_POST as $k =>$v){
+			if($k == 'cpassword' || ($k == 'password' && empty($v)))
+				continue;
+				if(!empty($data)) $data .=",";
+					$data .= " `{$k}`='{$v}' ";
+		}
+		$save = $this->conn->query("UPDATE `clients` set $data where id = $id ");
+		if($save){
+			foreach($_POST as $k =>$v){
+				if($k != 'cpassword')
+				$this->settings->set_userdata($k,$v);
+			}
+			
+			$this->settings->set_userdata('id',$this->conn->insert_id);
+			$resp['status'] = 'success';
+		}else{
+			$resp['status'] = 'failed';
+			$resp['error'] = $this->conn->error;
+		}
+		return json_encode($resp);
+
+	}
 }
 
 $CustomerController = new CustomerController();
@@ -244,6 +287,9 @@ switch ($action) {
 		break;
 	case 'place_order':
 		echo $CustomerController->place_order();
+		break;
+	case 'update_account':
+		echo $CustomerController->update_account();
 		break;
 	default:
 		break;

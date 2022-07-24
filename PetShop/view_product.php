@@ -41,7 +41,7 @@
                 <!-- <div class="small mb-1">SKU: BST-498</div> -->
                 <h1 class="display-5 fw-bolder"><?php echo $product_name ?></h1>
                 <div class="fs-5 mb-5">
-                &#8369; <span id="price"><?php echo $inv[0]['price'] ?></span>
+                &dollar; <span id="price"><?php echo $inv[0]['price'] ?></span>
                 <br>
                 <span><small><b>Available stock:</b> <span id="avail"><?php echo $inv[0]['quantity'] ?></span></small></span>
                 </div>
