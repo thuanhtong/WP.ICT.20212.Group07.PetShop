@@ -5,7 +5,7 @@
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="" style="height: auto;">
 <body>
     <?php $page = isset($_GET['p']) ? $_GET['p'] : 'home';  ?>
     <?php 
@@ -19,7 +19,7 @@
 
         }
     ?>
-    <?php require_once('include/footer.php') ?>
+    
     <div class="modal fade" id="confirm_modal" role='dialog'>
         <div class="modal-dialog modal-md modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -75,5 +75,6 @@
             </div>
         </div>
     </div>
+    <?php require_once('include/footer.php') ?>
 </body>
 </html>
