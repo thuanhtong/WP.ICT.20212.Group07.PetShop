@@ -92,7 +92,6 @@
         new_total = parseFloat(qty * price).toLocaleString('en-US')
         _this.closest('.cart-item').find('.cart-qty').val(qty)
         _this.closest('.cart-item').find('.total-amount').text(new_total)
-        // calc_total()
 
         $.ajax({
             url:'classes/CustomerController.php?f=update_cart_qty',
@@ -106,14 +105,15 @@
             },
             success:function(resp){
                 if(!!resp.status && resp.status == 'success'){
+                    calc_total()
                     end_loader()
                 }else{
                     alert_toast("an error occured", 'error');
                     end_loader()
                 }
             }
-
         })
+        
     }
     function rem_item(id){
         $('.modal').modal('hide')
@@ -133,10 +133,33 @@
             },
             success:function(resp){
                 if(!!resp.status && resp.status == 'success'){
-                    calc_total()
                     item.hide('slow',function(){ item.remove() })
                     calc_total()
                     end_loader()
+                }else{
+                    alert_toast("an error occured", 'error');
+                    end_loader()
+                }
+            }
+
+        })
+    }
+
+    function empty_cart(){
+        start_loader();
+        $.ajax({
+            url:'classes/CustomerController.php?f=empty_cart',
+            method:'POST',
+            data:{},
+            dataType:'json',
+            error:err=>{
+                console.log(err)
+                alert_toast("an error occured", 'error');
+                end_loader()
+            },
+            success:function(resp){
+                if(!!resp.status && resp.status == 'success'){
+                   location.reload()
                 }else{
                     alert_toast("an error occured", 'error');
                     end_loader()
@@ -149,14 +172,16 @@
     $(function(){
         calc_total()
         $('.min-qty').click(function(){
-            _conf("Are you ok?",'',[])
             qty_change('minus',$(this))
         })
         $('.plus-qty').click(function(){
             qty_change('plus',$(this))
         })
         $('.rem_item').click(function(){
-            _conf("Are you sure to remove the item in cart list?",'rem_item',[$(this).attr('data-id')])
+            _conf("Are you sure to remove this item in the cart list?",'rem_item',[$(this).attr('data-id')])
+        })
+        $('#empty_cart').click(function(){
+            _conf("Are you sure to empty your cart list?",'empty_cart',[])
         })
     })
 </script>

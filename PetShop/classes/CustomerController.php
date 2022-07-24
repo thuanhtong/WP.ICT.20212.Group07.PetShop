@@ -147,6 +147,20 @@ Class CustomerController extends DBConnection {
 		
 	}
 
+	function empty_cart(){
+		$sql = "DELETE FROM `cart` where client_id = ".$this->settings->userdata('id');
+		$delete = $this->conn->query($sql);
+		if($this->capture_err())
+			return $this->capture_err();
+		if($delete){
+			$resp['status'] = 'success';
+		}else{
+			$resp['status'] = 'failed';
+			$resp['err'] = $this->conn->error."[{$sql}]";
+		}
+		return json_encode($resp);
+	}
+
 	function remove_item_in_cart(){
 		extract($_POST);
 		$delete = $this->conn->query("DELETE FROM `cart` where id = '{$id}'");
@@ -183,6 +197,9 @@ switch ($action) {
         break;
 	case 'remove_item_in_cart':
 		echo $CustomerController->remove_item_in_cart();
+		break;
+	case 'empty_cart':
+		echo $CustomerController->empty_cart();
 		break;
 	default:
 		break;
