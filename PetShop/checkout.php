@@ -58,6 +58,7 @@ $(function(){
                     setTimeout(function(){
                         location.replace('./')
                     },2000)
+                    end_loader();
                 }else{
                     console.log(resp)
                     alert_toast("an error occured","error")
