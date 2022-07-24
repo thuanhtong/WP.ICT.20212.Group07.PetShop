@@ -174,6 +174,56 @@ Class CustomerController extends DBConnection {
 		}
 		return json_encode($resp);
 	}
+
+	function place_order(){
+		extract($_POST);
+		$client_id = $this->settings->userdata('id');
+		
+		$data = " client_id = '{$client_id}' ";
+		$data .= " ,payment_method = '{$payment_method}' ";
+		$data .= " ,amount = '{$amount}' ";
+		$data .= " ,paid = '{$paid}' ";
+		$data .= " ,delivery_address = '{$delivery_address}' ";
+		if($delivery_address == '') {
+			return $this->capture_err();
+		}
+		$order_sql = "INSERT INTO `orders` set $data";
+		$save_order = $this->conn->query($order_sql);
+		if($this->capture_err())
+			return $this->capture_err();
+		if($save_order){
+			$order_id = $this->conn->insert_id;
+			$data = '';
+			$cart = $this->conn->query("SELECT c.*,p.product_name,i.size,i.price,p.id as pid,i.unit from `cart` c inner join `inventory` i on i.id=c.inventory_id inner join products p on p.id = i.product_id where c.client_id ='{$client_id}' ");
+			while($row= $cart->fetch_assoc()):
+				if(!empty($data)) $data .= ", ";
+				$total = $row['price'] * $row['quantity'];
+				$this->conn->query("UPDATE `inventory` set quantity = quantity - '{$row['quantity']}' where id = '{$row['inventory_id']}' ");
+				$data .= "('{$order_id}','{$row['pid']}','{$row['size']}','{$row['unit']}','{$row['quantity']}','{$row['price']}', $total)";
+			endwhile;
+			$list_sql = "INSERT INTO `order_list` (order_id,product_id,size,unit,quantity,price,total) VALUES {$data} ";
+			$save_olist = $this->conn->query($list_sql);
+			if($this->capture_err())
+				return $this->capture_err();
+			if($save_olist){
+				$empty_cart = $this->conn->query("DELETE FROM `cart` where client_id = '{$client_id}'");
+				$data = " order_id = '{$order_id}'";
+				$data .= " ,total_amount = '{$amount}'";
+				$save_sales = $this->conn->query("INSERT INTO `sales` set $data");
+				if($this->capture_err())
+					return $this->capture_err();
+				$resp['status'] ='success';
+			}else{
+				$resp['status'] ='failed';
+				$resp['err_sql'] =$save_olist;
+			}
+
+		}else{
+			$resp['status'] ='failed';
+			$resp['err_sql'] =$save_order;
+		}
+		return json_encode($resp);
+	}
 }
 
 $CustomerController = new CustomerController();
@@ -200,6 +250,9 @@ switch ($action) {
 		break;
 	case 'empty_cart':
 		echo $CustomerController->empty_cart();
+		break;
+	case 'place_order':
+		echo $CustomerController->place_order();
 		break;
 	default:
 		break;
