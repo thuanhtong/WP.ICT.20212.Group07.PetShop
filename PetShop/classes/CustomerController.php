@@ -48,12 +48,6 @@ Class CustomerController extends DBConnection {
 		return json_encode($resp);
 	}
 
-    public function logout(){
-		if($this->settings->sess_des()){
-			redirect(base_url);
-		}
-	}
-
 	function register(){
 		extract($_POST);
 		$data = "";
@@ -232,9 +226,6 @@ $sysset = new SystemSettings();
 switch ($action) {
     case 'login':
 		echo $CustomerController->login();
-		break;
-	case 'logout':
-		echo $CustomerController->logout();
 		break;
     case 'register':
         echo $CustomerController->register();
