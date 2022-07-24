@@ -42,7 +42,7 @@
             if($('.err-msg').length > 0)
                 $('.err-msg').remove();
             $.ajax({
-                url:_base_url_+"classes/Login.php?f=login_user",
+                url:_base_url_+"classes/CustomerController.php?f=login",
                 method:"POST",
                 data:$(this).serialize(),
                 dataType:"json",

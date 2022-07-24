@@ -58,3 +58,130 @@
         </div>
     </div>
 </section>
+
+<script>
+    function calc_total(){
+        var total  = 0
+
+        $('.total-amount').each(function(){
+            amount = $(this).text()
+            amount = amount.replace(/\,/g,'')
+            amount = parseFloat(amount)
+            total += amount
+        })
+        $('#grand-total').text(parseFloat(total).toLocaleString('en-US'))
+    }
+    function qty_change($type,_this){
+        var qty = _this.closest('.cart-item').find('.cart-qty').val()
+        var price = _this.closest('.cart-item').find('.price').text()
+        var cart_id = _this.closest('.cart-item').find('.cart-qty').attr('data-id')
+        var new_total = 0
+        start_loader();
+        if($type == 'minus'){
+            if(qty > 0) {
+                if(qty == 1) {
+                    // ask to remove item
+                }else{
+                    qty = parseInt(qty) - 1
+                }
+            }             
+        }else{
+            qty = parseInt(qty) + 1
+        }
+        price = parseFloat(price)
+        new_total = parseFloat(qty * price).toLocaleString('en-US')
+        _this.closest('.cart-item').find('.cart-qty').val(qty)
+        _this.closest('.cart-item').find('.total-amount').text(new_total)
+
+        $.ajax({
+            url:'classes/CustomerController.php?f=update_cart_qty',
+            method:'POST',
+            data:{id:cart_id, quantity: qty},
+            dataType:'json',
+            error:err=>{
+                console.log(err)
+                alert_toast("an error occured", 'error');
+                end_loader()
+            },
+            success:function(resp){
+                if(!!resp.status && resp.status == 'success'){
+                    calc_total()
+                    end_loader()
+                }else{
+                    alert_toast("an error occured", 'error');
+                    end_loader()
+                }
+            }
+        })
+        
+    }
+    function rem_item(id){
+        $('.modal').modal('hide')
+        var _this = $('.rem_item[data-id="'+id+'"]')
+        var id = _this.attr('data-id')
+        var item = _this.closest('.cart-item')
+        start_loader();
+        $.ajax({
+            url:'classes/CustomerController.php?f=remove_item_in_cart',
+            method:'POST',
+            data:{id:id},
+            dataType:'json',
+            error:err=>{
+                console.log(err)
+                alert_toast("an error occured", 'error');
+                end_loader()
+            },
+            success:function(resp){
+                if(!!resp.status && resp.status == 'success'){
+                    item.hide('slow',function(){ item.remove() })
+                    calc_total()
+                    end_loader()
+                }else{
+                    alert_toast("an error occured", 'error');
+                    end_loader()
+                }
+            }
+
+        })
+    }
+
+    function empty_cart(){
+        start_loader();
+        $.ajax({
+            url:'classes/CustomerController.php?f=empty_cart',
+            method:'POST',
+            data:{},
+            dataType:'json',
+            error:err=>{
+                console.log(err)
+                alert_toast("an error occured", 'error');
+                end_loader()
+            },
+            success:function(resp){
+                if(!!resp.status && resp.status == 'success'){
+                   location.reload()
+                }else{
+                    alert_toast("an error occured", 'error');
+                    end_loader()
+                }
+            }
+
+        })
+    }
+    
+    $(function(){
+        calc_total()
+        $('.min-qty').click(function(){
+            qty_change('minus',$(this))
+        })
+        $('.plus-qty').click(function(){
+            qty_change('plus',$(this))
+        })
+        $('.rem_item').click(function(){
+            _conf("Are you sure to remove this item in the cart list?",'rem_item',[$(this).attr('data-id')])
+        })
+        $('#empty_cart').click(function(){
+            _conf("Are you sure to empty your cart list?",'empty_cart',[])
+        })
+    })
+</script>

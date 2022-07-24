@@ -76,7 +76,7 @@
             if($('.err-msg').length > 0)
                 $('.err-msg').remove();
             $.ajax({
-                url:_base_url_+"classes/Master.php?f=register",
+                url:_base_url_+"classes/CustomerController.php?f=register",
                 method:"POST",
                 data:$(this).serialize(),
                 dataType:"json",
