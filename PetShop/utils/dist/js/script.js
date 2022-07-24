@@ -28,12 +28,12 @@ $(document).ready(function(){
 		if($('.err_msg').length > 0)
 			$('.err_msg').remove()
 		$.ajax({
-			url:_base_url_+'classes/CustomerController.php?f=login',
+			url:_base_url_+'classes/AdminController.php?f=login', //file này của admin hết, đừng đổi controller của t nữa
 			method:'POST',
 			data:$(this).serialize(),
 			error:err=>{
 				console.log(err)
-
+	
 			},
 			success:function(resp){
 				if(resp){
@@ -47,7 +47,7 @@ $(document).ready(function(){
 						_frm.find('input').addClass('is-invalid')
 						$('[name="username"]').focus()
 					}
-						end_loader()
+					end_loader()
 				}
 			}
 		})
@@ -59,7 +59,7 @@ $(document).ready(function(){
 		if($('.err_msg').length > 0)
 			$('.err_msg').remove()
 		$.ajax({
-			url:_base_url_+'classes/CustomerController.php?f=flogin',
+			url:_base_url_+'classes/AdminController.php?f=flogin',
 			method:'POST',
 			data:$(this).serialize(),
 			error:err=>{
@@ -91,7 +91,7 @@ $(document).ready(function(){
 		if($('.err_msg').length > 0)
 			$('.err_msg').remove()
 		$.ajax({
-			url:_base_url_+'classes/CustomerController.php?f=slogin',
+			url:_base_url_+'classes/AdminController.php?f=slogin',
 			method:'POST',
 			data:$(this).serialize(),
 			error:err=>{
@@ -132,7 +132,7 @@ $(document).ready(function(){
 			success:function(resp){
 				if(resp == 1){
 					// alert_toast("Data successfully saved",'success')
-						location.reload()
+					location.reload()
 				}else{
 					$('#msg').html('<div class="alert alert-danger err_msg">An Error occured</div>')
 					end_load()

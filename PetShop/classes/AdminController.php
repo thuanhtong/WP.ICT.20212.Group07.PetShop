@@ -290,6 +290,128 @@ Class AdminController extends DBConnection {
 		return json_encode($resp);
 	}
 
+	function delete_sub_category(){
+		extract($_POST);
+		$del = $this->conn->query("DELETE FROM sub_categories where id = '{$id}'");
+		if($del) {
+			$resp['status'] = 'success';
+			$this->settings->set_flashdata('success', "Sub Category successfully deleted.");
+		} else {
+			$resp['status'] = 'failed';
+			$resp['error'] = $this->conn->error;
+		}
+		return json_encode($resp);
+	}
+
+	function save_sub_category(){
+		extract($_POST);
+		$data = "";
+		foreach($_POST as $k =>$v){
+			if(!in_array($k,array('id','description'))){
+				if(!empty($data)) $data .=",";
+				$data .= " `{$k}`='{$v}' ";
+			}
+		}
+
+		if(isset($_POST['description'])){
+			if(!empty($data)) $data .=",";
+				$data .= " `description`='".addslashes(htmlentities($description))."' ";
+		}
+
+		$check = $this->conn->query("SELECT * FROM `sub_categories` where `sub_category` = '{$sub_category}' ".(!empty($id) ? " and id != {$id} " : "")." ")->num_rows;
+		if($this->capture_err())
+			return $this->capture_err();
+		
+			if($check > 0){
+			$resp['status'] = 'failed';
+			$resp['msg'] = "Sub Category already exist.";
+			return json_encode($resp);
+			exit;
+		}
+		if(empty($id)){
+			$sql = "INSERT INTO `sub_categories` set {$data} ";
+			$save = $this->conn->query($sql);
+		} else{
+			$sql = "UPDATE `sub_categories` set {$data} where id = '{$id}' ";
+			$save = $this->conn->query($sql);
+		}
+
+		if($save){
+			$resp['status'] = 'success';
+			if(empty($id))
+				$this->settings->set_flashdata('success',"New Sub Category successfully saved.");
+			else
+				$this->settings->set_flashdata('success',"Sub Category successfully updated.");
+		}else{
+			$resp['status'] = 'failed';
+			$resp['err'] = $this->conn->error."[{$sql}]";
+		}
+		return json_encode($resp);
+	}
+
+	public function save_user(){
+		extract($_POST);
+		$data = '';
+		foreach($_POST as $k => $v){
+			if(!in_array($k,array('id','password'))){
+				if(!empty($data)) $data .=" , ";
+				$data .= " {$k} = '{$v}' ";
+			}
+		}
+
+		if(!empty($password) && !empty($id)){
+			$password = md5($password);
+			if(!empty($data)) $data .=" , ";
+			$data .= " `password` = '{$password}' ";
+		}
+
+		if(isset($_FILES['img']) && $_FILES['img']['tmp_name'] != ''){
+				$fname = 'uploads/'.$_FILES['img']['name'];
+				$move = move_uploaded_file($_FILES['img']['tmp_name'],'../'. $fname);
+				if($move){
+					$data .=" , avatar = '{$fname}' ";
+					if(isset($_SESSION['userdata']['avatar']) && is_file('../'.$_SESSION['userdata']['avatar']))
+						unlink('../'.$_SESSION['userdata']['avatar']);
+				}
+		}
+
+		if(empty($id)){
+			$qry = $this->conn->query("INSERT INTO users set {$data}");
+			if($qry){
+				$this->settings->set_flashdata('success','User Details successfully saved.');
+				foreach($_POST as $k => $v){
+					if($k != 'id'){
+						if(!empty($data)) $data .=" , ";
+						$this->settings->set_userdata($k,$v);
+					}
+				}
+				return 1;
+			} else {
+				return 2;
+			}
+
+		} else {
+			$qry = $this->conn->query("UPDATE users set $data where id = {$id}");
+			if($qry){
+				$this->settings->set_flashdata('success','User Details successfully updated.');
+				foreach($_POST as $k => $v){
+					if($k != 'id'){
+						if(!empty($data)) $data .=" , ";
+						$this->settings->set_userdata($k,$v);
+					}
+				}
+				if(isset($fname) && isset($move))
+				$this->settings->set_userdata('avatar',$fname);
+
+				return 1;
+			} else {
+				return "UPDATE users set $data where id = {$id}";
+			}
+		}
+	}
+
+	
+
 }
 
 $AdminController = new AdminController();
@@ -336,6 +458,17 @@ switch ($action) {
 		break;
 	case 'save_category':
 		echo $AdminController->save_category();
+		break;
+
+	case 'delete_sub_category':
+		echo $AdminController->delete_sub_category();
+		break;
+	case 'save_sub_category':
+		echo $AdminController->save_sub_category();
+		break;
+
+	case 'save_user':
+		echo $AdminController->save_user();
 		break;
 
 	default:
