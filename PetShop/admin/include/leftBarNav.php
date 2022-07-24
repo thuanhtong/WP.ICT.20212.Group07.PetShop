@@ -49,7 +49,7 @@
                                 </li>
 
                                 <li class="nav-item dropdown">
-                                    <a href="<?php echo base_url ?>admin/?page=orders" class="nav-link nav-orders">
+                                    <a href="<?php echo base_url ?>admin/?page=order" class="nav-link nav-order">
                                         <i class="nav-icon fas fa-list"></i>
                                             <p> Order List </p>
                                     </a>
@@ -58,14 +58,14 @@
                                 <li class="nav-header">Maintenance</li>
 
                                 <li class="nav-item dropdown">
-                                    <a href="<?php echo base_url ?>admin/?page=maintenance/category" class="nav-link nav-maintenance/category">
+                                    <a href="<?php echo base_url ?>admin/?page=category" class="nav-link nav-category">
                                         <i class="nav-icon fas fa-th-list"></i>
                                         <p> Category List</p>
                                     </a>
                                 </li>
 
                                 <li class="nav-item dropdown">
-                                    <a href="<?php echo base_url ?>admin/?page=maintenance/sub_category" class="nav-link nav-maintenance/sub_category">
+                                    <a href="<?php echo base_url ?>admin/?page=sub_category" class="nav-link nav-sub_category">
                                         <i class="nav-icon fas fa-th-list"></i>
                                         <p>Sub Category List</p>
                                     </a>

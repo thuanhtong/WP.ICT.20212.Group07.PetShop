@@ -82,7 +82,7 @@
 										<span class="sr-only">Toggle Dropdown</span>
 									</button>
 									<div class="dropdown-menu" role="menu">
-										<a class="dropdown-item" href="?page=orders/view_order&id=<?php echo $row['id'] ?>">View Order</a>
+										<a class="dropdown-item" href="?page=order/view_order&id=<?php echo $row['id'] ?>">View Order</a>
 										<?php if($row['paid'] == 0 && $row['status'] != 4): ?>
 										<a class="dropdown-item pay_order" href="javascript:void(0)"  data-id="<?php echo $row['id'] ?>">Mark as Paid</a>
 										<?php endif; ?>

@@ -219,6 +219,77 @@ Class AdminController extends DBConnection {
 		return json_encode($resp);
 	}
 
+	function update_order_status(){
+		extract($_POST);
+		$update = $this->conn->query("UPDATE orders set status = '$status' where id = '{$id}' ");
+		if($update) {
+			$resp['status'] ='success';
+			$this->settings->set_flashdata("success"," Order status successfully updated.");
+		}else {
+			$resp['status'] ='failed';
+			$resp['err'] = $this->conn->error;
+		}
+		return json_encode($resp);
+	}
+
+	function delete_category(){
+		extract($_POST);
+		$del = $this->conn->query("DELETE FROM categories where id = '{$id}'");
+		if($del){
+			$resp['status'] = 'success';
+			$this->settings->set_flashdata('success',"Category successfully deleted.");
+		}else {
+			$resp['status'] = 'failed';
+			$resp['error'] = $this->conn->error;
+		}
+		return json_encode($resp);
+	}
+
+	function save_category(){
+		extract($_POST);
+		$data = "";
+		foreach($_POST as $k =>$v){
+			if(!in_array($k,array('id','description'))){
+				if(!empty($data)) $data .=",";
+				$data .= " `{$k}`='{$v}' ";
+			}
+		} 
+
+		if(isset($_POST['description'])){
+			if(!empty($data)) $data .=",";
+				$data .= " `description`='".addslashes(htmlentities($description))."' ";
+		}
+		$check = $this->conn->query("SELECT * FROM `categories` where `category` = '{$category}' ".(!empty($id) ? " and id != {$id} " : "")." ")->num_rows;
+		if($this->capture_err())
+			return $this->capture_err();
+
+		if($check > 0){
+			$resp['status'] = 'failed';
+			$resp['msg'] = "Category already exist.";
+			return json_encode($resp);
+			exit;
+		}
+
+		if(empty($id)){
+			$sql = "INSERT INTO `categories` set {$data} ";
+			$save = $this->conn->query($sql);
+		}else{
+			$sql = "UPDATE `categories` set {$data} where id = '{$id}' ";
+			$save = $this->conn->query($sql);
+		}
+		if($save){
+			$resp['status'] = 'success';
+			if(empty($id))
+				$this->settings->set_flashdata('success',"New Category successfully saved.");
+			else
+				$this->settings->set_flashdata('success',"Category successfully updated.");
+		}else{
+			$resp['status'] = 'failed';
+			$resp['err'] = $this->conn->error."[{$sql}]";
+		}
+		return json_encode($resp);
+	}
+
 }
 
 $AdminController = new AdminController();
@@ -256,6 +327,17 @@ switch ($action) {
 	case 'delete_order':
 		echo $AdminController->delete_order();
 		break;
+	case 'update_order_status':
+		echo $AdminController->update_order_status();
+		break;
+
+	case 'delete_category':
+		echo $AdminController->delete_category();
+		break;
+	case 'save_category':
+		echo $AdminController->save_category();
+		break;
+
 	default:
 		break;
 }
