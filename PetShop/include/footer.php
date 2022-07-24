@@ -56,6 +56,10 @@
        $('#confirm_modal .modal-body').html($msg)
        $('#confirm_modal').modal('show')
     }
+    window._msg = function($msg=''){
+       $('#message_modal .modal-body').html($msg)
+       $('#message_modal').modal('show')
+    }
   })
 </script>
 

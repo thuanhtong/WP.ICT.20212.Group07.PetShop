@@ -36,6 +36,21 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="message_modal" role='dialog'>
+        <div class="modal-dialog modal-md modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title">Confirmation</h5>
+                </div>
+                <div class="modal-body">
+                    <div id="delete_content"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="modal fade" id="uni_modal" role='dialog'>
         <div class="modal-dialog   rounded-0 modal-md modal-dialog-centered" role="document">
             <div class="modal-content  rounded-0">

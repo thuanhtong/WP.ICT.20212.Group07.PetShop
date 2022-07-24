@@ -181,7 +181,12 @@
             _conf("Are you sure to remove this item in the cart list?",'rem_item',[$(this).attr('data-id')])
         })
         $('#empty_cart').click(function(){
-            _conf("Are you sure to empty your cart list?",'empty_cart',[])
+            var num = <?php echo $conn->query("SELECT * from `cart` where client_id = ".$_settings->userdata('id'))->num_rows; ?>;
+            if(num==0){
+                _msg("Your cart is already empty.")
+            }else{
+                _conf("Are you sure to empty your cart list?",'empty_cart',[])
+            }
         })
     })
 </script>
