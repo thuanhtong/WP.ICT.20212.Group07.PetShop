@@ -1,5 +1,5 @@
 <h1 align="center" >Welcome to <?php echo $_settings->info('short_name') ?> Administration</h1>
-<hr>
+<hr><br>
 <div class="container">
     <?php 
         $files = array();
