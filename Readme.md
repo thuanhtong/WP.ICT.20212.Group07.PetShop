@@ -1,4 +1,4 @@
-# Github Repo for Web Programming Assignment
+# Github Repo for Web Programming Project
 
 _Web Programming is a course of Hanoi University of Science and Technology for ICT students_
 
@@ -32,3 +32,26 @@ ______________________________________________________________
 **Group Member:**
 1. Nguyen Thi Thu Giang 20194750
 2. Tong Thi Thu Anh 20194728
+______________________________________________________________
+# Murphy's Pet - How to run
+1. Download and Install any local web server such as XAMPP/WAMP.
+
+2. Git clone our git repo into the XAMPP's "htdocs" directory. And If you are using WAMP, paste it into the "www" directory.
+
+3. Open your XAMPP/WAMP's Control Panel and start the Apache
+
+4. Create a new database naming pet_shop_db.
+
+5. Import the provided SQL file. The file is known as pet_shop_db.sql located inside the database folder.
+
+6. Update initialize.php file recording to your database information
+
+7. Browse the Online Pet Shop Web App in a browser. i.e. http://localhost/pet_shop and http://localhost/pet_shop/admin for the admin side.
+
+**Admin Information**
+- User name: admin
+- Password: admin
+
+**User Information**
+- User name: user
+- Password: user
