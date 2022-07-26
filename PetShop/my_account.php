@@ -63,7 +63,7 @@
 <script>
     $(function(){
         $('.view_order').click(function(){
-            uni_modal("Order Details","./admin/order/view_order.php?view=user&id="+$(this).attr('data-id'),'large')
+            uni_modal("Order Details","view_order.php?view=user&id="+$(this).attr('data-id'),'large')
         })
         $('table').dataTable();
 
