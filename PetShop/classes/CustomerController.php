@@ -31,8 +31,8 @@ Class CustomerController extends DBConnection {
 
 	function gglogin(){
 		extract($_POST);
-		// echo "<script>console.log(".implode(" ",$_POST) .");</script>";
-		// echo "<script>console.log('Debug Objects: " . $email . "' );</script>";
+		echo "<script>console.log(".implode(" ",$_POST) .");</script>";
+		echo "<script>console.log('Debug Objects: " . $email . "' );</script>";
 		$qry = $this->conn->query("SELECT * from clients where email = '$email'");
 
 		if($qry->num_rows > 0){
@@ -82,7 +82,7 @@ Class CustomerController extends DBConnection {
 		if($this->conn->error){
 			$resp['status'] = 'failed';
 			$resp['error'] = $this->conn->error;
-			return json_encode($resp['status']);
+			return json_encode($resp);
 		}
 		return json_encode($resp);
 	}
