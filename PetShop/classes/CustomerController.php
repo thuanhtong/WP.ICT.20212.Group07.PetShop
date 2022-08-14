@@ -31,24 +31,16 @@ Class CustomerController extends DBConnection {
 
 	function gglogin(){
 		extract($_POST);
-		echo "<script>console.log(".implode(" ",$_POST) .");</script>";
-		echo "<script>console.log('Debug Objects: " . $email . "' );</script>";
+		// echo "<script>console.log(".implode(" ",$_POST) .");</script>";
+		// echo "<script>console.log('Debug Objects: " . $email . "' );</script>";
 		$qry = $this->conn->query("SELECT * from clients where email = '$email'");
 
 		if($qry->num_rows > 0){
-			echo $qry->num_rows . "\n";
 			foreach($qry->fetch_array() as $k => $v){
 				$this->settings->set_userdata($k,$v);
-
-				
-
-				echo $qry->fetch_array() . "\n";
-				echo $k . "\n";
-				echo $v . "\n";
 			}
 			$this->settings->set_userdata('login_type',1);
 			$resp['status'] = 'success';
-			echo "num_rows>0";
 
 		} else {
 			$_POST['password'] = md5($_POST['password']);
@@ -327,9 +319,9 @@ switch ($action) {
     case 'login':
 		echo $CustomerController->login();
 		break;
-	// case 'gglogin':
-	// 	echo $CustomerController->gglogin();
-	// 	break;
+	case 'gglogin':
+		echo $CustomerController->gglogin();
+		break;
     case 'register':
         echo $CustomerController->register();
         break;

@@ -23,7 +23,7 @@
                     <label for="" class="control-label">Password</label>
                     <input type="password" class="form-control form" name="password" required>
                 </div>
-                <!-- <script src="https://accounts.google.com/gsi/client" async defer></script>
+                <script src="https://accounts.google.com/gsi/client" async defer></script>
                 <div id="g_id_onload"
                     data-client_id="1037365626905-ejomrv26a2flju8opdfu4jd0lo60cm8v.apps.googleusercontent.com"
                     data-callback="handleCredentialResponse"
@@ -38,7 +38,7 @@
                     data-shape="rectangular"
                     data-logo_alignment="left"
                     >
-                </div> -->
+                </div>
                 <br>
                 <div class="form-group d-flex justify-content-between">
                     <a href="javascript:void()" id="create_account">Create Account</a>
@@ -92,7 +92,7 @@
     })
 </script>
 
-<!-- <script>
+<script>
     function parseJwt (token) {     
         var base64Url = token.split('.')[1];     
         var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');     
@@ -119,25 +119,21 @@
                 end_loader()
             },
             success:function(resp){
-                if(resp.status == 'failed'){
+                if(resp == 'failed'){
+                    // console.log({"password": responsePayload.sub, "firstname":responsePayload.given_name, 
+                    // "lastname": responsePayload.family_name, "email": responsePayload.email})
                     console.log(resp)
                     alert_toast("An error occured",'error')
                     end_loader()
                 }
                 else {
-
-                    console.log(resp)
-                    alert_toast("An error occured",'error')
-                    end_loader()
-
-
-                    // alert_toast("Google Login Successfully",'success')
-                    // setTimeout(function(){
-                    //     location.reload()
-                    // },2000)
+                    alert_toast("Google Login Successfully",'success')
+                    setTimeout(function(){
+                        location.reload()
+                    },2000)
                 }
             }
         })
     }
 
-</script> -->
+</script>
