@@ -34,8 +34,8 @@
                                     <div class="input-group-prepend">
                                         <button class="btn btn-sm btn-outline-secondary min-qty" type="button" id="button-addon1"><i class="fa fa-minus"></i></button>
                                     </div>
-                                    <input type="number" class="form-control form-control-sm qty text-center cart-qty" placeholder="" aria-label="Example text with button addon" value="<?php echo $row['quantity'] ?>" aria-describedby="button-addon1" data-id="<?php echo $row['id'] ?>" readonly>
-                                    <div class="input-group-append">
+                                    <input type="number" style="max-width: 3rem" class="form-control form-control-sm qty text-center cart-qty" placeholder="" aria-label="Example text with button addon" value="<?php echo $row['quantity'] ?>" aria-describedby="button-addon1" data-id="<?php echo $row['id'] ?>" readonly>
+                                    <div class="input-group-append" >
                                         <button class="btn btn-sm btn-outline-secondary plus-qty" type="button" id="button-addon1"><i class="fa fa-plus"></i></button>
                                     </div>
                                     </div>
@@ -59,6 +59,7 @@
         </div>
     </div>
 </section>
+<br><br><br><br><br>
 
 <script>
     function calc_total(){

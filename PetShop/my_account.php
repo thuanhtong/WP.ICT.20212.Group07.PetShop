@@ -60,6 +60,7 @@
         </div>
     </div>
 </section>
+<br><br><br><br><br><br>
 <script>
     $(function(){
         $('.view_order').click(function(){

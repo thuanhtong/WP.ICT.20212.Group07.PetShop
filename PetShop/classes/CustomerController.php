@@ -29,6 +29,64 @@ Class CustomerController extends DBConnection {
 		}
 	}
 
+	function gglogin(){
+		extract($_POST);
+		// echo "<script>console.log(".implode(" ",$_POST) .");</script>";
+		// echo "<script>console.log('Debug Objects: " . $email . "' );</script>";
+		$qry = $this->conn->query("SELECT * from clients where email = '$email'");
+
+		if($qry->num_rows > 0){
+			echo $qry->num_rows . "\n";
+			foreach($qry->fetch_array() as $k => $v){
+				$this->settings->set_userdata($k,$v);
+
+				
+
+				echo $qry->fetch_array() . "\n";
+				echo $k . "\n";
+				echo $v . "\n";
+			}
+			$this->settings->set_userdata('login_type',1);
+			$resp['status'] = 'success';
+			echo "num_rows>0";
+
+		} else {
+			$_POST['password'] = md5($_POST['password']);
+
+			foreach($_POST as $k =>$v){
+				if(!in_array($k,array('id'))){
+					if(!empty($data)) $data .=",";
+					$data .= " `{$k}`='{$v}' ";
+				}
+			}
+
+			$sql = "INSERT INTO `clients` set {$data} ";
+			$save = $this->conn->query($sql);
+			$id = $this->conn->insert_id;
+
+			if($save){
+				$resp['status'] = 'success';
+				if(empty($id))
+					$this->settings->set_flashdata('success',"Account successfully created.");
+				foreach($_POST as $k =>$v){
+						$this->settings->set_userdata($k,$v);
+				}
+				$this->settings->set_userdata('id',$id);
+			}else{
+				$resp['status'] = 'failed';
+				$resp['error'] = $this->conn->error."[{$sql}]";
+			}
+			return json_encode($resp);
+		}
+
+		if($this->conn->error){
+			$resp['status'] = 'failed';
+			$resp['error'] = $this->conn->error;
+			return json_encode($resp['status']);
+		}
+		return json_encode($resp);
+	}
+
     function login(){
 		extract($_POST);
 		$qry = $this->conn->query("SELECT * from clients where email = '$email' and password = md5('$password') ");
@@ -37,9 +95,9 @@ Class CustomerController extends DBConnection {
 				$this->settings->set_userdata($k,$v);
 			}
 			$this->settings->set_userdata('login_type',1);
-		$resp['status'] = 'success';
-		}else{
-		$resp['status'] = 'incorrect';
+			$resp['status'] = 'success';
+		} else{
+			$resp['status'] = 'incorrect';
 		}
 		if($this->conn->error){
 			$resp['status'] = 'failed';
@@ -259,7 +317,6 @@ Class CustomerController extends DBConnection {
 			$resp['error'] = $this->conn->error;
 		}
 		return json_encode($resp);
-
 	}
 }
 
@@ -270,6 +327,9 @@ switch ($action) {
     case 'login':
 		echo $CustomerController->login();
 		break;
+	// case 'gglogin':
+	// 	echo $CustomerController->gglogin();
+	// 	break;
     case 'register':
         echo $CustomerController->register();
         break;
