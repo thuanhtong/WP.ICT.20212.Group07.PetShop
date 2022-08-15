@@ -39,12 +39,12 @@ $total = 0;
         </div>
     </div>
 </section>
-<script>
 
+<script>
 paypal.Button.render({
     env: 'sandbox', // change for production if app is live,
  
-        //app's client id's
+    //app's client id's
 	client: {
         sandbox:    'AeThoYQIP1pOlCsT4dSHSthke2WMg7zk9sOvAiWfDX5LNG3yQ52CiRXM8HNsvxbjvz2Aydk2etDrV-rd',
     },
@@ -73,18 +73,21 @@ paypal.Button.render({
     },
  
     onAuthorize: function(data, actions) {
-        return actions.payment.execute().then(function(payment) {
-    		// //sweetalert for successful transaction
-    		// swal('Thank you!', 'Paypal purchase successful.', 'success');
-            payment_online()
+        return actions.payment.get().then(function(data) {
+            var shipping = data.payer.payer_info.shipping_address;
+            var addr = shipping.line1 + ", " + shipping.city + ", " + shipping.state + ", " + shipping.country_code;
+            return actions.payment.execute().then(function(payment) {
+                payment_online(addr)
+            });
         });
     },
  
 }, '#paypal-button');
 
-function payment_online(){
+function payment_online(addr){
     $('[name="payment_method"]').val("Online Payment")
     $('[name="paid"]').val(1)
+    $('[name="delivery_address"]').val(addr)
     $('#place_order').submit()
 }
 
