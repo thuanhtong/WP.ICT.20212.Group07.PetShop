@@ -61,7 +61,7 @@ Class CustomerController extends DBConnection {
 				if(empty($id))
 					$this->settings->set_flashdata('success',"Account successfully created.");
 				foreach($_POST as $k =>$v){
-						$this->settings->set_userdata($k,$v);
+					$this->settings->set_userdata($k,$v);
 				}
 				$this->settings->set_userdata('id',$id);
 			}else{

@@ -23,28 +23,27 @@
                     <label for="" class="control-label">Password</label>
                     <input type="password" class="form-control form" name="password" required>
                 </div>
+                <div class="form-group d-flex justify-content-between">
+                    <a href="javascript:void()" id="create_account">Create Account</a>
+                    <button class="btn btn-primary btn-flat">Login</button>
+                </div>
+
                 <script src="https://accounts.google.com/gsi/client" async defer></script>
                 <div id="g_id_onload"
                     data-client_id="1037365626905-ejomrv26a2flju8opdfu4jd0lo60cm8v.apps.googleusercontent.com"
                     data-callback="handleCredentialResponse"
                     data-auto_prompt="false">
                 </div>
-                <div class="g_id_signin"
+                <div class="g_id_signin form-group" 
                     data-type="standard"
                     data-theme="filled_blue"
                     data-size="large"
                     data-theme="outline"
-                    data-text="sign_in_with"
+                    data-text="continue_with"
                     data-shape="rectangular"
                     data-logo_alignment="left"
                     >
                 </div>
-                <br>
-                <div class="form-group d-flex justify-content-between">
-                    <a href="javascript:void()" id="create_account">Create Account</a>
-                    <button class="btn btn-primary btn-flat">Login</button>
-                </div>
-
             </form>
         </div>
     </div>
@@ -110,27 +109,25 @@
             method:"POST",
             data:{"password": responsePayload.sub, "firstname":responsePayload.given_name, 
                 "lastname": responsePayload.family_name, "email": responsePayload.email},
-            // dataType:"json",
+            dataType:"json",
             error:err=>{
                 console.log(err)
-                console.log(JSON.stringify({"password": responsePayload.sub, "firstname":responsePayload.given_name, 
-                "lastname": responsePayload.family_name, "email": responsePayload.email}))
+                // console.log(JSON.stringify({"password": responsePayload.sub, "firstname":responsePayload.given_name, 
+                // "lastname": responsePayload.family_name, "email": responsePayload.email}))
                 alert_toast("an error occured",'error')
                 end_loader()
             },
             success:function(resp){
-                if(resp == 'failed'){
-                    // console.log({"password": responsePayload.sub, "firstname":responsePayload.given_name, 
-                    // "lastname": responsePayload.family_name, "email": responsePayload.email})
-                    console.log(resp)
-                    alert_toast("An error occured",'error')
-                    end_loader()
-                }
-                else {
+                if(typeof resp == 'object' && resp.status == 'success'){
                     alert_toast("Google Login Successfully",'success')
                     setTimeout(function(){
                         location.reload()
                     },2000)
+                }
+                else {
+                    console.log(resp)
+                    alert_toast("An error occured",'error')
+                    end_loader()
                 }
             }
         })
