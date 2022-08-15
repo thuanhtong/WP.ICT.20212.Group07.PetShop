@@ -1,3 +1,4 @@
+<script src="https://www.paypalobjects.com/api/checkout.js"></script>
 <?php 
 $total = 0;
     $qry = $conn->query("SELECT c.*,p.product_name,i.size,i.price,p.id as pid from `cart` c inner join `inventory` i on i.id=c.inventory_id inner join products p on p.id = i.product_id where c.client_id = ".$_settings->userdata('id'));
@@ -29,6 +30,7 @@ $total = 0;
                         <h4 class="text-muted">Payment Method</h4>
                             <div class="d-flex w-100 justify-content-between">
                                 <button class="btn btn-flat btn-dark">Cash on Delivery</button>
+                                <span id="paypal-button"></span>
                             </div>
                         </div>
                     </div>
@@ -38,6 +40,54 @@ $total = 0;
     </div>
 </section>
 <script>
+
+paypal.Button.render({
+    env: 'sandbox', // change for production if app is live,
+ 
+        //app's client id's
+	client: {
+        sandbox:    'AeThoYQIP1pOlCsT4dSHSthke2WMg7zk9sOvAiWfDX5LNG3yQ52CiRXM8HNsvxbjvz2Aydk2etDrV-rd',
+    },
+ 
+    commit: true, // Show a 'Pay Now' button
+ 
+    style: {
+    	color: 'blue',
+    	size: 'small'
+    },
+ 
+    payment: function(data, actions) {
+        return actions.payment.create({
+            payment: {
+                transactions: [
+                    {
+                    	//total purchase
+                        amount: { 
+                        	total: '<?php echo $total; ?>', 
+                        	currency: 'USD' 
+                        }
+                    }
+                ]
+            }
+        });
+    },
+ 
+    onAuthorize: function(data, actions) {
+        return actions.payment.execute().then(function(payment) {
+    		// //sweetalert for successful transaction
+    		// swal('Thank you!', 'Paypal purchase successful.', 'success');
+            payment_online()
+        });
+    },
+ 
+}, '#paypal-button');
+
+function payment_online(){
+    $('[name="payment_method"]').val("Online Payment")
+    $('[name="paid"]').val(1)
+    $('#place_order').submit()
+}
+
 $(function(){
     $('#place_order').submit(function(e){
         e.preventDefault()
