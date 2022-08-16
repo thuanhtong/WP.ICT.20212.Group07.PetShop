@@ -43,8 +43,6 @@ Class CustomerController extends DBConnection {
 			$resp['status'] = 'success';
 
 		} else {
-			$_POST['password'] = md5($_POST['password']);
-
 			foreach($_POST as $k =>$v){
 				if(!in_array($k,array('id'))){
 					if(!empty($data)) $data .=",";
@@ -81,7 +79,13 @@ Class CustomerController extends DBConnection {
 
     function login(){
 		extract($_POST);
+		// if($password == "" || $password == null){
+		// 	$resp['status'] = 'incorrect';
+		// 	return json_encode($resp);
+		// }
+
 		$qry = $this->conn->query("SELECT * from clients where email = '$email' and password = md5('$password') ");
+
 		if($qry->num_rows > 0){
 			foreach($qry->fetch_array() as $k => $v){
 				$this->settings->set_userdata($k,$v);

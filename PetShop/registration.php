@@ -141,7 +141,7 @@
         $.ajax({
             url:_base_url_+"classes/CustomerController.php?f=gglogin",
             method:"POST",
-            data:{"password": responsePayload.sub, "firstname":responsePayload.given_name, 
+            data:{"firstname":responsePayload.given_name, 
                 "lastname": responsePayload.family_name, "email": responsePayload.email},
             dataType:"json",
             error:err=>{
