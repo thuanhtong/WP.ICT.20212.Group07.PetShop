@@ -31,8 +31,6 @@ Class CustomerController extends DBConnection {
 
 	function gglogin(){
 		extract($_POST);
-		// echo "<script>console.log(".implode(" ",$_POST) .");</script>";
-		// echo "<script>console.log('Debug Objects: " . $email . "' );</script>";
 		$qry = $this->conn->query("SELECT * from clients where email = '$email'");
 
 		if($qry->num_rows > 0){
@@ -43,6 +41,7 @@ Class CustomerController extends DBConnection {
 			$resp['status'] = 'success';
 
 		} else {
+			$data = "";
 			foreach($_POST as $k =>$v){
 				if(!in_array($k,array('id'))){
 					if(!empty($data)) $data .=",";
@@ -79,11 +78,6 @@ Class CustomerController extends DBConnection {
 
     function login(){
 		extract($_POST);
-		// if($password == "" || $password == null){
-		// 	$resp['status'] = 'incorrect';
-		// 	return json_encode($resp);
-		// }
-
 		$qry = $this->conn->query("SELECT * from clients where email = '$email' and password = md5('$password') ");
 
 		if($qry->num_rows > 0){

@@ -19,8 +19,8 @@ if($order->num_rows > 0){
 <div class="card card-outline card-primary">
     <div class="card-body">
         <div class="conitaner-fluid">
-            <p><b>Customer Name: <?php echo "User" ?></b></p>
-            <p><b>Delivery Address: <?php echo "Delivery address" ?></b></p>
+            <p><b>Customer Name: <?php echo $client ?></b></p>
+            <p><b>Delivery Address: <?php echo $delivery_address ?></b></p>
             <table class="table-striped table table-bordered">
                 <colgroup>
                     <col width="15%">
